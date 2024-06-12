@@ -40,10 +40,10 @@ class UserUpdateForm(forms.ModelForm):
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile  # Use the custom Profile model
-        fields = ['bio', 'profile_picture']  # Specify the fields to be included in the form
+        fields = ['bio']  # Specify the fields to be included in the form , 'profile_picture' removed
         widgets = {  # Apply custom styling to the fields
             'bio': forms.Textarea(attrs={'class': 'form-control form-control-lg'}),
-            'profile_picture': forms.FileInput(attrs={'class': 'form-control form-control-lg'}),
+            # 'profile_picture': forms.FileInput(attrs={'class': 'form-control form-control-lg'}),
         }
 
 # Define a custom form for changing password by extending PasswordChangeForm
