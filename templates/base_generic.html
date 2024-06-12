@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SocialVibe{% endblock %}</title>
+    <meta name="description" content="SocialVibe - The social networking platform to connect with friends and family.">
+    <meta name="keywords" content="SocialVibe, social network, friends, family">
+    <meta name="author" content="SocialVibe Team">
+    <!-- CKEditor 5 CDN -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Custom Light/Dark Theme CSS -->
+    <style>
+        /* General styling for the body */
+        body {
+            background-color: #f8f9fa; /* Light background color */
+            color: #343a40; /* Dark text color for contrast */
+        }
+        /* Styling for the navbar and footer */
+        .navbar, .footer {
+            background-color: #343a40; /* Dark background color for navbar and footer */
+            color: #f8f9fa; /* Light text color for readability */
+        }
+        .navbar-brand, .nav-link, .footer span {
+            color: #f8f9fa !important; /* Ensure links in navbar and footer are white */
+        }
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.1); /* Light border color for navbar toggler */
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.7)' stroke-width='2' linecap='round' linejoin='round' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"); /* White hamburger icon */
+        }
+        /* Styling for cards and dropdown menus */
+        .card, .dropdown-menu {
+            background-color: #ffffff; /* Light background for cards and dropdowns */
+            color: #343a40; /* Dark text for readability */
+        }
+        .dropdown-item:hover {
+            background-color: #f8f9fa; /* Light background on hover for dropdown items */
+        }
+        /* Styling for primary buttons */
+        .btn-primary {
+            background-color: #007bff; /* Standard Bootstrap primary color */
+            border-color: #007bff; /* Border color matching the background */
+        }
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+            border-color: #0056b3; /* Matching border color */
+        }
+        /* Styling for alerts */
+        .alert {
+            background-color: #f8f9fa; /* Light background for alerts */
+            color: #343a40; /* Dark text color */
+            border-color: #dcdcdc; /* Light border color */
+        }
+        .alert.alert-success {
+            background-color: #28a745; /* Green background for success alerts */
+            color: #fff; /* White text color */
+        }
+        .alert.alert-danger {
+            background-color: #dc3545; /* Red background for danger alerts */
+            color: #fff; /* White text color */
+        }
+        .alert.alert-warning {
+            background-color: #ffc107; /* Yellow background for warning alerts */
+            color: #212529; /* Dark text color */
+        }
+        .alert.alert-info {
+            background-color: #17a2b8; /* Blue background for info alerts */
+            color: #fff; /* White text color */
+        }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+        <a class="navbar-brand" href="/">SocialVibe</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'create_post' %}">Create Post</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="{% if user.profile.profile_picture %}{{ user.profile.profile_picture.url }}{% else %}{% static 'images/default-profile.png' %}{% endif %}" class="rounded-circle" width="30" height="30" alt="{{ user.username }}">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                            <a class="dropdown-item" href="{% url 'change_password' %}">Change Password</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                        </div>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4 flex-grow-1">
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer bg-dark py-3 mt-4">
+        <div class="container text-center">
+            <span class="text-muted">&copy; 2024 SocialVibe. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- AJAX for Like Button -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const likeForms = document.querySelectorAll('.like-form');
+        
+        likeForms.forEach(likeForm => {
+            likeForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+                const url = likeForm.action;
+                const formData = new FormData(likeForm);
+                const likeButton = likeForm.querySelector('.like-button');
+                const likeCount = likeForm.querySelector('.like-count');
+
+                fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.liked) {
+                        likeButton.innerHTML = '<i class="fas fa-heart" style="color: red;"></i>';
+                    } else {
+                        likeButton.innerHTML = '<i class="far fa-heart"></i>';
+                    }
+                    likeCount.textContent = data.likes_count;
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+    });
+    </script>
+    <!-- CKEditor Initialization -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const editorElements = document.querySelectorAll('.ckeditor');
+            editorElements.forEach(editorElement => {
+                ClassicEditor
+                    .create(editorElement)
+                    .catch(error => {
+                        console.error(error);
+                    });
+            });
+        });
+    </script>
+</body>
+</html>

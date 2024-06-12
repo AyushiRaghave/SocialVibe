@@ -1,0 +1,28 @@
+
+.error-message {
+    color: red;
+    font-weight: bold;
+}
+
+.text-success {
+    color: green;
+}
+
+.text-danger {
+    color: red;
+}
+
+#password-criteria ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#password-criteria li {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+#password-criteria li i {
+    margin-right: 10px;
+}

@@ -1,0 +1,122 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Page Title -->
+    <h2 class="mb-4 text-center">All Posts</h2>
+    <div class="row">
+        <!-- Loop through each post in the posts queryset -->
+        {% for post in posts %}
+        <div class="col-12 mb-4">
+            <div class="card shadow-sm">
+                <div class="row no-gutters">
+                    <!-- Profile section with profile picture and user information -->
+                    <div class="col-md-2 text-center bg-light p-3">
+                        <img src="{% if post.author.profile.profile_picture %}{{ post.author.profile.profile_picture.url }}{% else %}{% static 'images/default-profile.png' %}{% endif %}" class="rounded-circle img-fluid profile-picture" alt="{{ post.author.username }}">
+                        <h5 class="mt-2">{{ post.author.username }}</h5>
+                        <small class="text-muted">{{ post.created_at|date:"d M Y, h:i A" }}</small>
+                    </div>
+                    <!-- Post content section -->
+                    <div class="col-md-10">
+                        <div class="card-body">
+                            <div class="card-text">{% autoescape off %}{{ post.content|safe }}{% endautoescape %}</div>
+                            {% if post.updated_at and post.updated_at > post.created_at %}
+                                <p class="text-muted"><small>Last edited: {{ post.updated_at|timesince }} ago</small></p>
+                            {% endif %}
+                            <!-- Interaction buttons and counts -->
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <form class="like-form d-inline" method="POST" action="{% url 'like_post' post.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-danger btn-sm like-button">
+                                        {% if user_likes|default_if_none:False %}
+                                            <i class="fas fa-heart"></i>
+                                        {% else %}
+                                            <i class="far fa-heart"></i>
+                                        {% endif %}
+                                    </button>
+                                    <span class="ml-2 like-count">{{ post.likes.count }}</span>
+                                </form>
+                                <a href="{% url 'post_detail' post.id %}" class="btn btn-outline-primary btn-sm">
+                                    <i class="far fa-comments"></i> {{ post.comments.count }} Comments
+                                </a>
+                                <a href="{% url 'post_detail' post.id %}" class="btn btn-primary btn-sm">View Post</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Inline CSS for styling -->
+<style>
+/* Ensure profile pictures remain circular and responsive */
+.profile-picture {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* General styling enhancements */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: #673ab7;
+    color: white;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-text {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.btn-primary {
+    background-color: #673ab7;
+    border-color: #673ab7;
+}
+
+.btn-outline-primary {
+    color: #673ab7;
+    border-color: #673ab7;
+}
+
+.btn-outline-primary:hover {
+    background-color: #673ab7;
+    color: white;
+}
+
+.btn-outline-danger {
+    color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .profile-picture {
+        width: 60px;
+        height: 60px;
+    }
+}
+</style>
+{% endblock %}

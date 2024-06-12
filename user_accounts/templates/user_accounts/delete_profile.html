@@ -1,0 +1,33 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Delete Profile{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Card for Delete Profile Confirmation -->
+            <div class="card shadow-lg border-0">
+                <!-- Card header with custom background color and text -->
+                <div class="card-header text-white text-center py-4" style="background-color: #e74c3c;">
+                    <h4 class="mb-0">Delete Profile</h4>
+                </div>
+                <div class="card-body p-5 text-center">
+                    <!-- Lead text to inform the user about the action -->
+                    <p class="lead">Are you sure you want to delete your profile? This action cannot be undone.</p>
+                    <!-- Form for profile deletion -->
+                    <form method="POST">
+                        {% csrf_token %}
+                        <!-- Delete button with custom background color -->
+                        <div class="d-grid gap-2 mb-3">
+                            <button type="submit" class="btn btn-lg text-white" style="background-color: #e74c3c;">Delete Profile</button>
+                        </div>
+                        <!-- Cancel button that redirects back to the profile page -->
+                        <a href="{% url 'profile' %}" class="btn btn-secondary btn-lg btn-block">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

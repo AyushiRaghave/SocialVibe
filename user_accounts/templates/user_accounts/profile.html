@@ -1,0 +1,63 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<!-- Main container with top margin -->
+<div class="container mt-5">
+    <!-- Centering the row content -->
+    <div class="row justify-content-center">
+        <!-- Profile Update Card -->
+        <div class="col-lg-8">
+            <!-- Card with shadow and no border -->
+            <div class="card shadow-lg border-0">
+                <!-- Card header with background color and text styling -->
+                <div class="card-header text-white text-center py-4" style="background-color: #673ab7;">
+                    <h4 class="mb-0">Profile</h4>
+                </div>
+                <!-- Card body with padding -->
+                <div class="card-body p-5">
+                    <!-- Profile update form -->
+                    <form method="POST" enctype="multipart/form-data">
+                        <!-- CSRF token for security -->
+                        {% csrf_token %}
+                        <div class="row">
+                            <!-- User Information section -->
+                            <div class="col-md-6 mb-4">
+                                <h5 class="text-muted">User Information</h5>
+                                <!-- User form fields -->
+                                {{ u_form.as_p }}
+                            </div>
+                            <!-- Profile Information section -->
+                            <div class="col-md-6 mb-4">
+                                <h5 class="text-muted">Profile Information</h5>
+                                <!-- Profile form fields -->
+                                {{ p_form.as_p }}
+                            </div>
+                        </div>
+                        <!-- Submit button with styling -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-lg text-white btn-block" style="background-color: #673ab7;">Update Profile</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Delete Profile Section -->
+    <div class="row justify-content-center mt-4">
+        <div class="col-lg-8">
+            <!-- Card with shadow and no border -->
+            <div class="card shadow-lg border-0">
+                <!-- Card body with padding -->
+                <div class="card-body p-4">
+                    <h5 class="card-title text-danger">Delete Profile</h5>
+                    <p class="card-text">Deleting your profile will remove all your data and this action cannot be undone.</p>
+                    <!-- Delete Profile button -->
+                    <a href="{% url 'delete_profile' %}" class="btn btn-danger">Delete Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

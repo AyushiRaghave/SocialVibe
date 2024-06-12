@@ -1,0 +1,56 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block title %}404 Page Not Found{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <!-- Card for 404 Page Not Found Error -->
+            <div class="card shadow-lg border-0 text-center">
+                <!-- Card header with custom styling for error indication -->
+                <div class="card-header bg-primary text-white py-4">
+                    <h4 class="mb-0">404 Page Not Found</h4>
+                </div>
+                <!-- Card body containing the error message and a return home button -->
+                <div class="card-body p-5">
+                    <p>We can't seem to find the page you're looking for.</p>
+                    <a href="{% url 'home' %}" class="btn btn-primary btn-lg">Return Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Inline CSS for specific styling of this page -->
+<style>
+/* General body styling for a clean look */
+body {
+    background-color: #f8f9fa; /* Light background color for a clean look */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Font for better readability */
+}
+
+/* Styling for the card component */
+.card {
+    border-radius: 8px; /* Rounded corners for a modern look */
+    overflow: hidden; /* Ensure content does not overflow the card */
+}
+
+/* Styling for the card header to match the theme */
+.card-header {
+    background-color: #673ab7; /* Primary color matching the site theme */
+    color: white; /* White text for contrast */
+}
+
+/* Padding for the card body for better spacing */
+.card-body {
+    padding: 20px; /* Padding for better spacing and layout */
+}
+
+/* Custom styling for the primary button */
+.btn-primary {
+    background-color: #673ab7; /* Custom primary button color */
+    border-color: #673ab7; /* Border color matching the button background */
+}
+</style>
+{% endblock %}

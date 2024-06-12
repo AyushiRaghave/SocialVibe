@@ -1,0 +1,67 @@
+{% extends "base_generic.html" %}
+{% load custom_filters %}
+{% load static %}
+
+{% block content %}
+<!-- Main container with top margin -->
+<div class="container mt-5">
+    <!-- Centering the row content -->
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <!-- Card for Registration Form -->
+            <div class="card shadow-lg border-0">
+                <!-- Card header with background color and text styling -->
+                <div class="card-header text-white text-center py-4" style="background-color: #673ab7;">
+                    <h4 class="mb-0">Create an Account</h4>
+                </div>
+                <!-- Card body with padding -->
+                <div class="card-body p-5">
+                    <!-- Registration form -->
+                    <form method="POST">
+                        <!-- CSRF token for security -->
+                        {% csrf_token %}
+                        <!-- Username field -->
+                        <div class="form-group mb-4">
+                            {{ form.username.label_tag }}
+                            {{ form.username|add_class:"form-control form-control-lg" }}
+                        </div>
+                        <!-- Email field -->
+                        <div class="form-group mb-4">
+                            {{ form.email.label_tag }}
+                            {{ form.email|add_class:"form-control form-control-lg" }}
+                        </div>
+                        <!-- Password field -->
+                        <div class="form-group mb-4">
+                            {{ form.password1.label_tag }}
+                            {{ form.password1|add_class:"form-control form-control-lg" }}
+                        </div>
+                        <!-- Confirm Password field -->
+                        <div class="form-group mb-4">
+                            {{ form.password2.label_tag }}
+                            {{ form.password2|add_class:"form-control form-control-lg" }}
+                        </div>
+                        <!-- Submit button -->
+                        <button type="submit" class="btn btn-lg text-white" style="background-color: #673ab7;">Register</button>
+                    </form>
+                    <!-- Password criteria for validation -->
+                    <div id="password-criteria" class="mt-3">
+                        <ul style="list-style-type: none; padding: 0;">
+                            <li id="criteria-length" class="text-danger"><i class="fa fa-times"></i> At least 8 characters long</li>
+                            <li id="criteria-uppercase" class="text-danger"><i class="fa fa-times"></i> Contains an uppercase letter</li>
+                            <li id="criteria-lowercase" class="text-danger"><i class="fa fa-times"></i> Contains a lowercase letter</li>
+                            <li id="criteria-digit" class="text-danger"><i class="fa fa-times"></i> Contains a digit</li>
+                            <li id="criteria-match" class="text-danger"><i class="fa fa-times"></i> Passwords match</li>
+                        </ul>
+                    </div>
+                    <!-- Link to login page for existing users -->
+                    <div class="mt-3 text-center">
+                        <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- JavaScript for password validation -->
+<script src="{% static 'js/form_validation.js' %}"></script>
+{% endblock %}

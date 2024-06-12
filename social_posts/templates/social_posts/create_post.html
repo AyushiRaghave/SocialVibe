@@ -1,0 +1,80 @@
+{% extends "base_generic.html" %}
+{% load static crispy_forms_tags %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Center the content using Bootstrap classes -->
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Card component for the Create Post form -->
+            <div class="card shadow-lg border-0">
+                <!-- Card header with a custom background color and text styling -->
+                <div class="card-header text-white text-center py-4" style="background-color: #673ab7;">
+                    <h4 class="mb-0">Create Post</h4>
+                </div>
+                <div class="card-body p-5">
+                    <!-- Form for creating a post -->
+                    <form id="postForm" method="POST">
+                        <!-- CSRF token for security -->
+                        {% csrf_token %}
+                        <!-- Render the form using the crispy template pack -->
+                        {{ form|crispy }}
+                        <!-- Buttons for submitting the form and canceling the action -->
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="submit" class="btn btn-lg text-white" style="background-color: #673ab7;">Create Post</button>
+                            <a href="{% url 'home' %}" class="btn btn-secondary btn-lg">Cancel</a>
+                        </div>
+                        <!-- Error message displayed if the content is empty -->
+                        <div id="error-message" class="text-danger mt-3" style="display: none;">Content cannot be empty.</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include CKEditor from CDN -->
+<script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Initialize CKEditor on the content textarea
+        ClassicEditor
+            .create(document.querySelector('#id_content'), {
+                toolbar: [
+                    'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|',
+                    'insertTable', 'mediaEmbed', 'undo', 'redo'
+                ]
+            })
+            .then(editor => {
+                // Editor initialized
+                console.log('CKEditor initialized', editor);
+                // Reference to the form and error message elements
+                const form = document.getElementById('postForm');
+                const errorMessage = document.getElementById('error-message');
+
+                // Form submission event listener
+                form.addEventListener('submit', (event) => {
+                    // Get the content from the editor
+                    const editorData = editor.getData();
+
+                    // Check if the content is empty
+                    if (!editorData.trim()) {
+                        // Prevent form submission
+                        event.preventDefault();
+                        // Show error message
+                        errorMessage.style.display = 'block';
+                    } else {
+                        // Hide error message if previously shown
+                        errorMessage.style.display = 'none';
+                        // Update the textarea with the editor content
+                        document.querySelector('#id_content').value = editorData;
+                    }
+                });
+            })
+            .catch(error => {
+                // Log any initialization errors
+                console.error('CKEditor initialization error', error);
+            });
+    });
+</script>
+{% endblock %}

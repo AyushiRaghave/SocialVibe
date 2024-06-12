@@ -1,0 +1,49 @@
+{% extends "base_generic.html" %}
+{% load static crispy_forms_tags %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Center the content using Bootstrap classes -->
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Card component for editing post -->
+            <div class="card shadow-lg border-0">
+                <!-- Card header with a custom background color and text styling -->
+                <div class="card-header text-white text-center py-4" style="background-color: #673ab7;">
+                    <h4 class="mb-0">Edit Post</h4>
+                </div>
+                <div class="card-body p-5">
+                    <!-- Form for editing the post -->
+                    <form method="POST">
+                        <!-- CSRF token for security -->
+                        {% csrf_token %}
+                        <!-- Render the form using Crispy Forms for better styling -->
+                        {{ form|crispy }}
+                        <!-- Buttons for updating the post or canceling the action -->
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">Update Post</button>
+                            <a href="{% url 'post_detail' post.id %}" class="btn btn-secondary btn-lg">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- CKEditor initialization for the content field -->
+<script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        ClassicEditor
+            .create(document.querySelector('#id_content'), {
+                toolbar: [
+                    'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|',
+                    'insertTable', 'mediaEmbed', 'undo', 'redo'
+                ]
+            })
+            .catch(error => {
+                console.error('CKEditor initialization error:', error);
+            });
+    });
+</script>
+{% endblock %}

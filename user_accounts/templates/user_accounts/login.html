@@ -1,0 +1,50 @@
+{% extends "base_generic.html" %}
+{% load custom_filters %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Center the row content -->
+    <div class="row justify-content-center">
+        <!-- Column for different screen sizes -->
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <!-- Card for Login Form -->
+            <div class="card shadow-lg border-0">
+                <!-- Card header with custom background color and text -->
+                <div class="card-header text-white text-center py-4" style="background-color: #673ab7;">
+                    <h4 class="mb-0">Welcome Back</h4>
+                </div>
+                <!-- Card body with padding -->
+                <div class="card-body p-5">
+                    <!-- Login form -->
+                    <form method="POST">
+                        <!-- CSRF token for security -->
+                        {% csrf_token %}
+                        <!-- Form group for username input -->
+                        <div class="form-group mb-4">
+                            {{ form.username.label_tag }} <!-- Label for username -->
+                            {{ form.username|add_class:"form-control form-control-lg" }} <!-- Username input with added class for styling -->
+                        </div>
+                        <!-- Form group for password input -->
+                        <div class="form-group mb-4">
+                            {{ form.password.label_tag }} <!-- Label for password -->
+                            {{ form.password|add_class:"form-control form-control-lg" }} <!-- Password input with added class for styling -->
+                        </div>
+                        <!-- Submit button with custom background color -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-lg text-white" style="background-color: #673ab7;">Login</button>
+                        </div>
+                    </form>
+                    <!-- Additional links for registration and password reset -->
+                    <div class="mt-3 text-center">
+                        <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+                        <p><a href="{% url 'password_reset' %}">Forgot your password?</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

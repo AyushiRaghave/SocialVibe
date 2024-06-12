@@ -1,0 +1,152 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Post Detail Card -->
+            <div class="card shadow-lg border-0 mb-4">
+                <div class="card-body">
+                    <!-- Post author information -->
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="{% if post.author.profile.profile_picture %}{{ post.author.profile.profile_picture.url }}{% else %}{% static 'images/default-profile.png' %}{% endif %}" class="rounded-circle mr-3" width="50" height="50" alt="{{ post.author.username }}">
+                        <div>
+                            <h5 class="card-title mb-0">{{ post.author.username }}</h5>
+                            <small class="text-muted">{{ post.created_at|date:"d M Y, h:i A" }}</small>
+                        </div>
+                    </div>
+                    <hr>
+                    <!-- Post content -->
+                    <div class="card-text">{% autoescape off %}{{ post.content|safe }}{% endautoescape %}</div>
+                    {% if post.updated_at and post.updated_at > post.created_at %}
+                        <p class="text-muted"><small>Last edited: {{ post.updated_at|timesince }} ago</small></p>
+                    {% endif %}
+                    <!-- Post interaction buttons -->
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <form class="like-form d-inline" method="POST" action="{% url 'like_post' post.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger btn-sm like-button">
+                                {% if user_has_liked %}
+                                    <i class="fas fa-heart" style="color: red;"></i>
+                                {% else %}
+                                    <i class="far fa-heart"></i>
+                                {% endif %}
+                            </button>
+                            <span class="ml-2 like-count">{{ post.likes.count }}</span>
+                        </form>
+                        {% if request.user == post.author %}
+                            <div>
+                                <a href="{% url 'edit_post' post.id %}" class="btn btn-primary btn-sm">Edit</a>
+                                <a href="{% url 'delete_post' post.id %}" class="btn btn-danger btn-sm">Delete</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comments Section -->
+            <div class="card shadow-lg border-0 mb-4">
+                <div class="card-body">
+                    <h4 class="card-title">Comments</h4>
+                    {% for comment in comments %}
+                        <div class="media mb-4">
+                            <img src="{% if comment.author.profile.profile_picture %}{{ comment.author.profile.profile_picture.url }}{% else %}{% static 'images/default-profile.png' %}{% endif %}" class="rounded-circle mr-3" width="40" height="40" alt="{{ comment.author.username }}">
+                            <div class="media-body">
+                                <h5 class="mt-0">{{ comment.author.username }}</h5>
+                                <p>{{ comment.content }}</p>
+                                <small class="text-muted">Posted at: {{ comment.created_at|date:"d M Y, h:i A" }}</small>
+                                {% if request.user == comment.author %}
+                                    <form method="POST" action="{% url 'delete_comment' comment.id %}" class="mt-2">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-link btn-sm text-danger">Delete</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <hr>
+                <!-- Add Comment Section -->
+                <div class="card-body">
+                    <h4 class="card-title">Add a Comment</h4>
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ comment_form.as_p }}
+                        <button type="submit" class="btn btn-primary">Add Comment</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Inline CSS for styling -->
+<style>
+/* Ensure profile pictures remain circular and responsive */
+.profile-picture {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* General styling enhancements */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: #673ab7;
+    color: white;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-text {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.btn-primary {
+    background-color: #673ab7;
+    border-color: #673ab7;
+}
+
+.btn-outline-primary {
+    color: #673ab7;
+    border-color: #673ab7;
+}
+
+.btn-outline-primary:hover {
+    background-color: #673ab7;
+    color: white;
+}
+
+.btn-outline-danger {
+    color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .profile-picture {
+        width: 40px;
+        height: 40px;
+    }
+}
+</style>
+{% endblock %}

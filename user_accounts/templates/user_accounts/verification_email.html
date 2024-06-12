@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your Email</title>
+    <style>
+        /* General body styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Font family for better readability */
+            background-color: #f4f4f4; /* Light grey background */
+            margin: 0;
+            padding: 0;
+        }
+        /* Container styling for the email content */
+        .container {
+            width: 100%;
+            max-width: 600px; /* Maximum width of the email content */
+            margin: 0 auto; /* Center the container */
+            background-color: #ffffff; /* White background for the container */
+            padding: 20px; /* Padding inside the container */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        }
+        /* Header section styling */
+        .header {
+            text-align: center; /* Center-aligned text */
+            padding: 20px; /* Padding inside the header */
+            background-color: #673ab7; /* Violet background color */
+            color: #ffffff; /* White text color */
+            border-radius: 8px 8px 0 0; /* Rounded corners at the top */
+        }
+        .header h1 {
+            margin: 0; /* Remove default margin */
+            font-size: 24px; /* Font size for the header */
+        }
+        /* Content section styling */
+        .content {
+            padding: 20px; /* Padding inside the content */
+        }
+        .content p {
+            font-size: 16px; /* Font size for the content text */
+            line-height: 1.5; /* Line height for better readability */
+            margin: 10px 0; /* Margin for the paragraphs */
+        }
+        /* Button styling */
+        .btn {
+            display: inline-block; /* Inline block for button-like appearance */
+            padding: 10px 20px; /* Padding inside the button */
+            font-size: 16px; /* Font size for the button text */
+            color: #ffffff; /* White text color */
+            background-color: #673ab7; /* Violet background color */
+            text-align: center; /* Center-aligned text */
+            text-decoration: none; /* Remove underline */
+            border-radius: 5px; /* Rounded corners */
+            margin-top: 20px; /* Margin at the top */
+            transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+        }
+        .btn:hover {
+            background-color: #512897; /* Darker violet on hover */
+        }
+        /* Footer section styling */
+        .footer {
+            text-align: center; /* Center-aligned text */
+            padding: 20px; /* Padding inside the footer */
+            font-size: 12px; /* Font size for the footer text */
+            color: #888888; /* Grey text color */
+            border-top: 1px solid #dddddd; /* Top border */
+            border-radius: 0 0 8px 8px; /* Rounded corners at the bottom */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>SocialVibe</h1> <!-- Email header with the app name -->
+        </div>
+        <div class="content">
+            <p>Hello {{ user.username }},</p> <!-- Greeting the user by username -->
+            <p>Thank you for registering at SocialVibe. Please click the button below to verify your email address and complete your registration:</p> <!-- Registration message -->
+            <a href="{{ verification_link }}" class="btn">Verify Email</a> <!-- Verification button with link -->
+            <p>If you did not create an account, no further action is required.</p> <!-- Message for non-account creators -->
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 SocialVibe. All rights reserved.</p> <!-- Footer with copyright notice -->
+        </div>
+    </div>
+</body>
+</html>

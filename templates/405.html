@@ -1,0 +1,56 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block title %}405 Method Not Allowed{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <!-- Card for 405 Method Not Allowed Error -->
+            <div class="card shadow-lg border-0 text-center">
+                <!-- Card header with custom styling for error indication -->
+                <div class="card-header bg-danger text-white py-4">
+                    <h4 class="mb-0">405 Method Not Allowed</h4>
+                </div>
+                <!-- Card body containing the error message and a return home button -->
+                <div class="card-body p-5">
+                    <p>Oops! The method you used to access this page is not allowed.</p>
+                    <a href="{% url 'home' %}" class="btn btn-primary btn-lg">Return Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Inline CSS for specific styling of this page -->
+<style>
+/* General body styling for a clean look */
+body {
+    background-color: #f8f9fa; /* Light background color for a clean look */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Font for better readability */
+}
+
+/* Styling for the card component */
+.card {
+    border-radius: 8px; /* Rounded corners for a modern look */
+    overflow: hidden; /* Ensure content does not overflow the card */
+}
+
+/* Styling for the card header to match the theme */
+.card-header {
+    background-color: #dc3545; /* Red color indicating a severe error */
+    color: white; /* White text for contrast */
+}
+
+/* Padding for the card body for better spacing */
+.card-body {
+    padding: 20px; /* Padding for better spacing and layout */
+}
+
+/* Custom styling for the primary button */
+.btn-primary {
+    background-color: #673ab7; /* Custom primary button color */
+    border-color: #673ab7; /* Border color matching the button background */
+}
+</style>
+{% endblock %}
